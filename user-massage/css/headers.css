@@ -1,0 +1,52 @@
+#lefts_head,#right_head{
+	width:200px;
+	height:100%;
+}
+#right_head{
+	width:10%;
+}
+.user_img{
+	display:block;
+	width:64px;
+	height:64px;
+	border-radius: 50%;
+	background: darkolivegreen;
+}
+.user_name{
+	display: block;
+	width:150px;
+	height: 64px;
+	color:#FFFFFF;
+	font-size: 16px;
+	line-height: 64px;
+	text-align: center;
+	background: grey;
+	cursor: pointer;
+}
+#hidetui{
+	width:150px;
+	height: 45px;
+	line-height: 45px;
+	position: fixed;
+	top:72px;
+	background:gray;
+	color: #FFFFFF;
+	right:58px;
+	display: none;
+	cursor: pointer;
+}
+#lefts_head img{
+	width:100%;
+	height:50%;
+	vertical-align: middle;
+	margin-top: 1.5rem;
+	margin-left: 1.5rem;
+}
+header h2{
+	color: #FFFFFF;
+	margin: 0;padding: 0;
+	line-height: 96px;
+	text-align: center;
+	width:65%;
+	height:100%;
+}

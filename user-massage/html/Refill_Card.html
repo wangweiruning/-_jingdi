@@ -1,0 +1,121 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=8" >
+<title>会议列表</title>
+<link rel="stylesheet" type="text/css" href="../css/reset.css"/>
+<link rel="stylesheet" type="text/css" href="../css/common.css"/>
+<link rel="stylesheet" type="text/css" href="../css/massage.css"/>
+<script type="text/javascript" src="../js/jquery-3.1.1.min.js"></script>
+<script src="../js/laypage.js"></script>
+</head>
+
+<body>
+<div id="right_ctn">
+	<div id="allcent">
+		<ul class="headss">
+			<li><a href="index.html" target="_parent">用户首页<span>&gt;</span></a></li>
+			<li><a href="#">充值卡<span>&gt;</span></a></li>
+			<li><a href="">充值卡列表</a></li>
+		</ul>
+	</div>
+	<div id="tables">
+		<div id="creat_time">
+			<label for="time_zero">创建时间</label>
+			<input type="date" id="time_zero" />
+			<span>至</span>
+			<input type="date" id="time_one" />
+			<input type="text" id="time_tow" />
+			<input type="button" name="btns" id="btns" value="查询充值卡" />
+		</div>
+		<table border="1" cellspacing="0">
+			<thead>
+				<tr cellspacing="0">
+					<th>充值卡类型</th>
+					<th>卡号</th>
+					<th>密码</th>
+					<th>单价</th>
+					<th>时间(天)</th>
+					<th>创建时间</th>
+					<th>创建人</th>
+					<th>是否被使用</th>
+					<th>使用时间</th>
+					<th>使用账号</th>
+				</tr>
+			</thead>
+			<tbody id="biuuu_city_list">
+				
+			</tbody>
+		</table>
+		<div id="biuuu_city"></div>
+	</div>
+</div>
+</body>
+</html>
+<script>
+		
+
+$(function(){
+
+	$("#btns").on("click",function(){
+		var ff =$("#time_zero").val();
+			diaoyong()
+	})
+	
+	
+    diaoyong()
+	function diaoyong(){
+		$('#tables table tbody').empty();
+		$.ajax({
+			type:"post",
+			url:"https://jindi163.com:8443/JDLot/admin/log/info",
+			data:{
+			pageNum:1,
+			pageSize:10
+		},
+			dataType:'json',
+			contentType:"application/json",
+		success:function(data){
+			var data= data.datas;
+			console.log(data)
+  	var nums = 5; //每页出现的数量
+//	var pages = Math.ceil(data.length/nums); //得到总页数
+	var pages=10;
+	var thisDate = function(curr){
+		    //此处只是演示，实际场景通常是返回已经当前页已经分组好的数据
+		    var str = '', last = curr*nums - 1;
+//		    last = last >= data.length ? (data.length-1) : last;
+
+		    var htmlp='';
+		
+		    for(var i = (curr*nums - nums); i <= last; i++){
+		       str+='<tr> \
+					<td>通用'+i+'</td> \
+					<td>13132515</td> \
+					<td>aaasfs</td>\
+					<td>0</td>\
+					<td>30</td>\
+					<td>2017-11-11 16:52:45</td>\
+					<td> </td>\
+					<td style="color:red">已被使用</td>\
+					<td>2017-11-11 16:52:45</td>\
+					<td>534654fghfd</td>\
+				</tr>';
+		    }
+    	return str;
+	};
+
+//调用分页
+laypage({
+    cont: 'biuuu_city',//分页挂载点
+    pages: pages,
+    jump: function(obj){
+        document.getElementById('biuuu_city_list').innerHTML = thisDate(obj.curr);//biuuu_city_list 数据展示挂载点
+    }
+})
+}
+})
+}
+})
+</script>
+

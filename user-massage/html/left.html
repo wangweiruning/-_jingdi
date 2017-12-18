@@ -1,0 +1,71 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=8" >
+<title>左边导航</title>
+<link rel="stylesheet" type="text/css" href="../css/reset.css"/>
+<!--<link rel="stylesheet" type="text/css" href="../css/common.css"/>-->
+<link rel="stylesheet" type="text/css" href="../css/lrtk.css"/>
+<script type="text/javascript" src="../js/jquery-3.1.1.min.js"></script>
+</head>
+
+<body style="background: #345678;">
+	
+ <div id="firstpane" class="menu_list">
+ 	<p class="menu_head current">
+ 		<a href="user_all.html" target="main" style="display:block;color:#ff0303;width:186px;height:49px">系统总览</a>
+ 	</p>
+    <p class="menu_head">用户管理</p>
+    <div style="display:none" class="menu_body" >
+      <a href="massage.html" target="main">用户列表</a>
+      <a href="use_coent.html" target="main">用户统计</a>
+    </div>
+    <p class="menu_head">订单管理</p>
+    <div style="display:none" class="menu_body" >
+      <a href="pay_list.html" target="main">订单列表</a>
+      <!--<a href="creat_Card.html" target="main">订单详情</a>
+      <a href="Card_History.html" target="main"></a>-->
+    </div>
+    <p class="menu_head">充值卡</p>
+    <div style="display:none" class="menu_body" >
+      <a href="Refill_Card.html" target="main">充值卡列表</a>
+      <a href="creat_Card.html" target="main">充值卡创建</a>
+      <a href="Card_History.html" target="main">充值卡使用记录</a>
+    </div>
+     <p class="menu_head">收入预览</p>
+    <div style="display:none" class="menu_body" >
+      <a href="get_moeny.html" target="main">收入详情</a>
+    </div>
+     <p class="menu_head">管理员操作记录</p>
+    <div style="display:none" class="menu_body" >
+      <a href="logo_setate.html" target="main">登录状态</a>
+      <a href="logo_delect.html" target="main">删除记录</a>
+      <a href="logo_change.html" target="main">修改密码</a>
+      <a href="logo_create.html" target="main">创卡记录</a>
+    </div>
+     <p class="menu_head" id="meun_last">设置管理员</p>
+    <div style="display:none" class="menu_body" >
+      <a href="manage_create.html" target="main">创建新管理员</a>
+      <a href="manage_list.html" target="main">管理员列表</a>
+    </div>
+</div>
+<script type=text/javascript>
+$(document).ready(function(){
+//$("#firstpane .menu_body:eq(0)").show();
+  $("#firstpane p.menu_head").click(function(){
+    $(this).addClass("current").next("div.menu_body").slideToggle(300).siblings("div.menu_body").slideUp("slow");
+    $(this).siblings().removeClass("current");
+  });
+  $("#firstpane a").click(function(){
+  	  $(this).addClass("colors").siblings().removeClass("colors");
+  })
+  var titles = window.sessionStorage.getItem("panage");
+  if(titles!="admin"){
+  	$("#meun_last").hide();
+  }else{
+  	$("#meun_last").show();
+  }
+});
+</script>
+</body>
+</html>

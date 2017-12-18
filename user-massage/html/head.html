@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>头部</title>
+		<!--<link rel="stylesheet" type="text/css" href="../css/reset.css"/>-->
+		<link rel="stylesheet" href="../css/common.css" />
+		<link rel="stylesheet" type="text/css" href="../css/headers.css"/>
+		<link rel="stylesheet" href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css">	
+		
+		<script src="../js/jquery-3.1.1.min.js"></script>
+		<script src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	
+</script>
+<!--框架高度设置-->
+	</head>
+	<body>
+		<header>
+			<div id="lefts_head" class="f_l">
+				<img src="http://www.uugai.com/logoa/wt.php" alt="logo图标"/>
+			</div>
+			<h2 class="f_l" >精帝软件后台管理系统</h2>
+			<div id="right_head" class="f_r">
+				
+					<div class="dropdown" style="height:48px">
+							<div  class="btn dropdown-toggle" id="dropdownMenu1" 
+									data-toggle="dropdown"  style="height:48px;padding: 14px 12px;outline: none;">
+								你好，<span id="panages">管理员</span>
+								<span class="caret"></span>
+							</div>
+							<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+								<li role="presentation">
+									<a role="menuitem" tabindex="-1" href="login.html" target="_parent" style="text-align:center;outline: none;">退出</a>
+								</li>
+							</ul>
+					</div>
+			</div>
+			<div id="hidetui">退出登陆</div>
+		</header>
+		<script>
+			var manage=window.sessionStorage.getItem("panage");
+			$("#panages").text(manage);
+		</script>
+	</body>
+</html>

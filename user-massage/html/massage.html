@@ -1,0 +1,222 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=8" >
+<title>会议列表</title>
+<link rel="stylesheet" type="text/css" href="../css/reset.css"/>
+<link rel="stylesheet" type="text/css" href="../css/common.css"/>
+<link rel="stylesheet" type="text/css" href="../css/massage.css"/>
+<script type="text/javascript" src="../js/jquery-3.1.1.min.js"></script>
+<link href="../css/normalize.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="../css/animate.min.css">
+<link rel="stylesheet" href="../css/jquery.gDialog.css">
+<style type="text/css">
+	.delect{
+		display: inline-block;
+		width:18px;
+		height:18px;
+		border: 1px solid #FF7777;
+		background: url(../img/shanchu.png)no-repeat;
+		background-size: 100% 100%;margin: 0 .5rem;
+		background-color: #FF7777;
+	}
+	.adds{
+		display: inline-block;
+		width:18px;
+		height:18px;
+		background: url(../img/bianji.png)no-repeat;
+		background-size: 100% 100%;
+		border: 1px solid #2A8BCB;margin: 0 .5rem;
+		background-color: #2A8BCB;
+	}
+</style>
+</head>
+
+<body>
+<div id="right_ctn">
+	<div id="allcent">
+		<ul class="headss">
+			<li><a href="index.html" target="_parent">用户首页<span>&gt;</span></a></li>
+			<li><a href="#">用户管理<span>&gt;</span></a></li>
+			<li><a href="">用户列表</a></li>
+		</ul>
+	</div>
+	<div id="tables">
+		<div id="creat_time">
+			<label for="qq_find">QQ查找</label>
+			<input type="text" id="qq_find" />
+			<input type="button" name="find_byqq" id="find_byqq" value="查询" />
+			<label for="time_zero">用户名</label>
+			<input type="text" id="time_zero" />
+			<input type="button" name="btns" id="btns" value="查询" />
+		</div>
+		<table border="1" cellspacing="0" >
+			<thead>
+				<tr cellspacing="0">
+					<th><input type="checkbox" name="checkbox" id="check_all" value="" /></th>
+					<th>软件id</th>
+					<th>软件名</th>
+					<th>用户id</th>
+					<th>用户名</th>
+					<th>密码</th>
+					<th>QQ</th>
+					<th>注册时间</th>
+					<th>最后登录时间</th>
+					<th>登录ip</th>
+					<th>到期时间</th>
+					<th>状态</th>
+					<th>操作</th>
+				</tr>
+			</thead>
+			<tbody id="biuuu_city_list" >
+				
+			</tbody>
+		</table>
+		<div id="biuuu_city"></div>
+	</div>
+</div>
+<script src="../js/laypage.js"></script>
+<script src="../js/jquery.gDialog.js"></script>
+<script src="../js/jquery.gDialog1.js"></script>
+<script type="text/javascript">
+$(function(){
+	$("#find_byqq").click(function(){
+
+		 diaoyong()
+	})
+   $("#btns").click(function(){
+
+		 diaoyong()
+	})
+   
+  							 diaoyong()
+	function diaoyong(){
+		$('#tables table tbody').empty();
+		$.ajax({
+			type:"post",
+			url:"https://jindi163.com:8443/JDLot/admin/log/info",
+			data:{
+			pageNum:1,
+			pageSize:20
+		},
+			dataType:'json',
+			contentType:"application/json",
+		success:function(data){
+			var data= data.datas;
+			console.log(data)
+		  	var nums = 20; //每页出现的数量
+		//	var pages = Math.ceil(data.length/nums); //得到总页数
+			var pages=10;
+			var thisDate = function(curr){
+		    //此处只是演示，实际场景通常是返回已经当前页已经分组好的数据
+		    var str = '', last = curr*nums - 1;
+//		    last = last >= data.length ? (data.length-1) : last;
+
+		    var htmlp='';
+		
+		    for(var i = (curr*nums - nums); i <= last; i++){
+		       str+='<tr> \
+				<td><input type="checkbox" name="checkbox" class="satation" value=""/></td> \
+					<td> '+i+'</td> \
+					<td>112</td> \
+					<td>超神五码</td> \
+					<td>110254</td> \
+					<td>sdfaffd</td> \
+					<td>256455854</td> \
+					<td>2017-11-8 10:5:39</td> \
+					<td  style="color:green">在线</td> \
+					<td>168.94.44.15</td> \
+					<td>2017-11-8 10:5:39</td> \
+					<td style="color:green">在线</td> \
+					<td><a class="adds btn demo-2"></a><a class="delect btn demo-3"></a></td> \
+					</tr>';
+		    }
+    	return str;
+	};
+					
+					//调用分页
+					laypage({
+					    cont: 'biuuu_city',//分页挂载点
+					    pages: pages,
+					    jump: function(obj){
+					        document.getElementById('biuuu_city_list').innerHTML = thisDate(obj.curr);//biuuu_city_list 数据展示挂载点
+					        
+					        
+					    	$('.delect').each(function(i){//删除用户信息
+						 	$(this).click(function(){
+					//	 	$(this).parent().parent().remove();
+						 	var user =  $(this).parent().siblings().eq(4).text()+i;
+						 	window.sessionStorage.setItem("user_id",user);
+						 	 
+						 	 	$.glog.confirm("你确定要确认删除该用户吗?", {
+							    title: "删除",
+								animateIn : "bounceInDown",
+							    animateOut: "bounceOutUp"
+					 			 });
+					 		});
+					 	});
+					 		
+					   		 $('.demo-2').each(function(i){//修改的密码
+						 		$(this).click(function(){
+						 			var user =  $(this).parent().siblings().eq(4).text()+i;
+						 			window.sessionStorage.setItem("user_id",user);
+							  		
+							  		$.gDialog.prompt("change", "", {
+							   			title: "修改密码",
+							    		required: true,
+										animateIn : "rollIn",
+							   		 	animateOut: "rollOut"
+							  		});
+								});
+					    	});
+					    	
+					    	
+					    }
+					})
+				}
+		})//请求数据结束
+		
+	}
+})
+		$("#check_all").click(function(){
+			if(this.checked==true) {
+			checkAll('checkbox'); 
+		}
+		else {
+			clearAll('checkbox');
+		}
+		})
+		
+ function checkAll(name) 
+ { 
+     var el = document.getElementsByTagName('input'); 
+     var len = el.length; 
+     for(var i=0; i<len; i++) 
+     { 
+         if((el[i].type=="checkbox") && (el[i].name==name)) 
+         { 
+             el[i].checked = true;
+               
+     } 
+     
+        
+ } 
+ }
+ function clearAll(name) 
+ { 
+     var el = document.getElementsByTagName('input'); 
+     var len = el.length; 
+     for(var i=0; i<len; i++) 
+     { 
+         if((el[i].type=="checkbox") && (el[i].name==name)) 
+         { 
+             el[i].checked = false; 
+             if(el[i].checked = false){
+         	 el[0].checked = false; 
+         	 }
+         } 
+     } 
+ }
+</script>
+</body>
+</html>

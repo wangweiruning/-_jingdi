@@ -1,0 +1,156 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=8" >
+<title>会议列表</title>
+<link rel="stylesheet" type="text/css" href="../css/reset.css"/>
+<link rel="stylesheet" type="text/css" href="../css/common.css"/>
+<link rel="stylesheet" type="text/css" href="../css/massage.css"/>
+<script type="text/javascript" src="../js/jquery-3.1.1.min.js"></script>
+<script src="../js/laypage.js"></script>
+<link href="../css/normalize.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="../css/animate.min.css">
+<link rel="stylesheet" href="../css/jquery.gDialog.css">
+<style type="text/css">
+	.delect{
+		display: inline-block;
+		width:18px;
+		height:18px;
+		border: 1px solid #FF7777;
+		background: url(../img/shanchu.png)no-repeat;
+		background-size: 100% 100%;margin: 0 .5rem;
+		background-color: #FF7777;
+	}
+	.adds{
+		display: inline-block;
+		width:18px;
+		height:18px;
+		background: url(../img/bianji.png)no-repeat;
+		background-size: 100% 100%;
+		border: 1px solid #2A8BCB;margin: 0 .5rem;
+		background-color: #2A8BCB;
+	}
+</style>
+</head>
+
+<body>
+<div id="right_ctn">
+	<div id="allcent">
+		<ul class="headss">
+			<li><a href="index.html" target="_parent">用户首页<span>&gt;</span></a></li>
+			<li><a href="#">设置管理员<span>&gt;</span></a></li>
+			<li><a href="">管理员列表</a></li>
+		</ul>
+	</div>
+	<div id="tables">
+		<!--
+        	作者：397149747@qq.com
+        	时间：2017-12-15
+        	描述：查询部分暂时去除
+        -->
+		<!--<div id="creat_time">
+			<label for="time_zero">管理员账号</label>
+			<input type="text" id="time_zero" />
+			<input type="button" name="btns_ding" id="btns_ding" value="查询" />
+		</div>-->
+		<table border="1" cellspacing="0">
+			<thead>
+				<tr cellspacing="0">
+					<th>管理员账号</th>
+					<th>密码</th>
+					<th>创建时间</th>
+					<th>编辑</th>
+				</tr>
+			</thead>
+			<tbody id="biuuu_city_list">
+				
+			</tbody>
+		</table>
+		<div id="biuuu_city"></div>
+	</div>
+</div>
+</body>
+</html>
+
+<script src="../js/jquery.manage_write.js"></script>
+<script src="../js/jquery.manage_delect.js"></script>
+<script>
+		
+
+$(function(){
+	   
+	  $("#btns_ding").click(function(){
+	  	if($("#time_zero").val()=="" || $("#time_zero").val()==undefined){
+	  		alert("参数异常!,请输入正确的参数")
+	  	}else{
+	  	setTimeout(diaoyong,1000)
+		}
+	  })
+    			diaoyong()
+	function diaoyong(){
+		$('#biuuu_city_list').empty();
+		$.ajax({
+			type:"post",
+			url:"https://jindi163.com:8443/JDLot/admin/log/info",
+			data:{
+			pageNum:1,
+			pageSize:20
+		},
+			dataType:'json',
+			contentType:"application/json",
+		success:function(data){
+			var data= data.datas;
+			console.log(data)
+			var str='';
+		for (var i = 0; i < 5; i++) {
+
+		
+		       str+='<tr> \
+					<td>'+i+'你大爷</td>\
+					<td>times</td>\
+					<td>2017-11-15-14:36:55</td>\
+					<td><a class="adds btn demo-2"></a><a class="delect btn demo-3"></a></td>\
+				</tr>';
+		   }
+   
+        document.getElementById('biuuu_city_list').innerHTML =str;//biuuu_city_list 数据展示挂载点
+        
+        
+        $('.delect').each(function(i){//删除用户信息
+						 	$(this).click(function(){
+					//	 	$(this).parent().parent().remove();
+						 	var user =  $(this).parent().siblings().eq(4).text()+i;
+						 	window.sessionStorage.setItem("user_id",user);
+						 	 
+						 	 	$.glog.confirm("你确定要删除该管理员吗?", {
+							    title: "删除管理员",
+								animateIn : "bounceInDown",
+							    animateOut: "bounceOutUp"
+					 			 });
+					 		});
+					 	});
+					 		
+					   		 $('.demo-2').each(function(i){//修改的密码
+						 		$(this).click(function(){
+						 			var user =  $(this).parent().siblings().eq(4).text()+i;
+						 			window.sessionStorage.setItem("user_id",user);
+							  		
+							  		$.glog.prompt("密码重置", "", {
+							   			title: "修改管理员密码",
+							    		required: true,
+										animateIn : "rollIn",
+							   		 	animateOut: "rollOut"
+							  		});
+								});
+					    	});
+
+		},
+error:function(res){
+	alert("参数异常!,请输入正确的参数")
+}
+})
+}
+})
+</script>
+
+
