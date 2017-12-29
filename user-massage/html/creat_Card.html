@@ -88,35 +88,22 @@ var url = "http://www.jindi163.com:8888/";
 			headers:{contentType:"application/json"},
 		success:function(data){
 			console.log(data)
-			var data= data.datas;
-  	var nums = 20; //每页出现的数量
-//	var pages = Math.ceil(data.length/nums); //得到总页数
-	var pages=10;
- var htmlp='<tr cellspacing="0">\
-					<th>充值卡类型</th>\
-					<th>卡号</th>\
-					<th>密码</th>\
-					<th>单价</th>\
-					<th>时间(天)</th>\
-					<th>创建时间</th>\
-					<th>创建人</th>\
-				</tr>';
+			  	var nums = 5; //每页出现的数量
+			  	var data=data.data;
+				var pages = Math.ceil(data.length/nums); //得到总页数
+			 var htmlp='<tr cellspacing="0"> \
+								<th>卡号</th> \
+								<th>单价</th> \
+							</tr>';
 				$("#create_head").html(htmlp);
 	var thisDate = function(curr){
 		    //此处只是演示，实际场景通常是返回已经当前页已经分组好的数据
 		    var str = '', last = curr*nums - 1;
-//		    last = last >= data.length ? (data.length-1) : last;
-
-		
+			last = last >= data.length ? (data.length-1) : last;
 		    for(var i = (curr*nums - nums); i <= last; i++){
-		       str+='<tr> \
-					<td>通用'+i+'</td> \
-					<td>13132515</td> \
-					<td>aaasfs</td>\
-					<td>0</td>\
-					<td>30</td>\
-					<td>2017-11-11 16:52:45</td>\
-					<td> </td>\
+		       str +='<tr> \
+					<td>'+data[i]+'</td> \
+					<td>100</td>\
 				</tr>';
 		    }
     	return str;
@@ -130,6 +117,12 @@ laypage({
         document.getElementById('biuuu_city_list').innerHTML = thisDate(obj.curr);//biuuu_city_list 数据展示挂载点
     }
 })
+},
+error:function(err){
+	if(err.readyState==0){
+		
+		alert("请先登录")
+	}
 }
 })
 }

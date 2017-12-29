@@ -99,7 +99,8 @@
 						}
 					},
 					error: function(err) {
-						console.log("参数异常!")
+						$("#ts").html("服务器异常！请联系管理员");
+							is_show();
 					}
 				})
 			}
