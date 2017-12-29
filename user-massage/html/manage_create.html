@@ -66,26 +66,28 @@
 		
 
 $(function(){
-
+var url="http://www.jindi163.com:8888/";
 	$("#btns").on("click",function(){
-		var ff =$("#time_zero").val();
-		console.log(ff) 
+	
 		diaoyong()
 	})
 	
 	
    
 	function diaoyong(){
+		var name =$("#pay_num").val();
+		var pwd =$("#creat_num").val();
+		console.log(pwd)
 		$('#tables table tbody').empty();
 		$.ajax({
 			type:"post",
-			url:"https://jindi163.com:8443/JDLot/admin/log/info",
+			url:url+"manage/user/insert.do",
 			data:{
-			pageNum:1,
-			pageSize:20
+			name:name,
+			pwd:pwd
 		},
 			dataType:'json',
-			contentType:"application/json",
+			headers:{contentType:"application/json"},
 		success:function(data){
 			var data= data.datas;
  var htmlp='<tr cellspacing="0">\

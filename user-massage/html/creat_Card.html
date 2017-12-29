@@ -21,24 +21,26 @@
 	</div>
 	<div id="tables">
 		<div id="creat_time">
-			<label for="time_zero">充值卡类型</label>
+			<!--<label for="time_zero">充值卡类型</label>
 			<select name="satation">
 				<option value="通用">通用</option>
 				<option value="时时彩专用">时时彩专用</option>
 				<option value="pk10专用">pk10专用</option>
 				<option value="快三专用">快三专用</option>
-			</select>
+			</select>-->
 			<label for="pay_num">充值卡数量</label>
 			<input type="bumber" id="pay_num" value="1"/>
 			<label for="time_zero">充值卡时间</label>
 			<select name="satation">
-				<option value="0元测试用1天">0元测试用1天</option>
-				<option value="1天">1天</option>
-				<option value="30天">30天</option>
-				<option value="356天">356天</option>
+				<option value="1天" id="6">1天</option>//6
+				<option value="1周" id="1">1周</option>//1
+				<option value="1月" id="2">1月</option>//2
+				<option value="半年" id="3">半年</option>//3
+				<option value="1年" id="4">1年</option>//4
+				<option value="永久" id="5">永久</option>//5
 			</select>
-			<label for="creat_num">充值卡点数</label>
-			<input type="bumber" id="creat_num" value="1"/>
+			<label for="creat_num">充值卡价格</label>
+			<input type="bumber" id="creat_num" value=""/>
 			<input type="button" name="btns" id="btns" value="创建充值卡" />
 		</div>
 		<p style="text-align: left;text-indent: 20px;font-weight: bold;">新创建的卡号:</p>
@@ -61,29 +63,32 @@
 		
 
 $(function(){
-
+var url = "http://www.jindi163.com:8888/";
 	$("#btns").on("click",function(){
-		var ff =$("#time_zero").val();
-		console.log(ff) 
-		diaoyong()
+		var count =$("#pay_num").val();
+		var price =$("#creat_num").val();
+		var effectiveTime =$("select option:selected").attr("id");
+		diaoyong(count,price,effectiveTime)
 	})
 	
 	
    
-	function diaoyong(){
+	function diaoyong(count,price,effectiveTime){
+		console.log(effectiveTime)
 		$('#tables table tbody').empty();
 		$.ajax({
 			type:"post",
-			url:"https://jindi163.com:8443/JDLot/admin/log/info",
+			url:url+"manage/code/insert",
 			data:{
-			pageNum:1,
-			pageSize:20
+			count:count, 
+			price:price, 
+			effectiveTime:effectiveTime,
 		},
 			dataType:'json',
-			contentType:"application/json",
+			headers:{contentType:"application/json"},
 		success:function(data){
-			var data= data.datas;
 			console.log(data)
+			var data= data.datas;
   	var nums = 20; //每页出现的数量
 //	var pages = Math.ceil(data.length/nums); //得到总页数
 	var pages=10;

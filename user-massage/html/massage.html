@@ -63,7 +63,7 @@
 					<th>注册时间</th>
 					<th>最后登录时间</th>
 					<th>登录ip</th>
-					<th>到期时间</th>
+					<th>下线时间</th>
 					<th>状态</th>
 					<th>操作</th>
 				</tr>
@@ -80,6 +80,7 @@
 <script src="../js/jquery.gDialog1.js"></script>
 <script type="text/javascript">
 $(function(){
+	var url="http://www.jindi163.com:8888/";
 	$("#find_byqq").click(function(){
 
 		 diaoyong()
@@ -89,21 +90,17 @@ $(function(){
 		 diaoyong()
 	})
    
-  							 diaoyong()
+  		 diaoyong()
 	function diaoyong(){
 		$('#tables table tbody').empty();
 		$.ajax({
 			type:"post",
-			url:"https://jindi163.com:8443/JDLot/admin/log/info",
-			data:{
-			pageNum:1,
-			pageSize:20
-		},
+			url:url+"manage/user/list.do",
 			dataType:'json',
 			contentType:"application/json",
 		success:function(data){
-			var data= data.datas;
 			console.log(data)
+			var data= data.data.list;
 		  	var nums = 20; //每页出现的数量
 		//	var pages = Math.ceil(data.length/nums); //得到总页数
 			var pages=10;
@@ -114,19 +111,19 @@ $(function(){
 
 		    var htmlp='';
 		
-		    for(var i = (curr*nums - nums); i <= last; i++){
+		    for(var i = (curr*nums - nums); i <data.length; i++){
 		       str+='<tr> \
 				<td><input type="checkbox" name="checkbox" class="satation" value=""/></td> \
-					<td> '+i+'</td> \
-					<td>112</td> \
-					<td>超神五码</td> \
-					<td>110254</td> \
-					<td>sdfaffd</td> \
-					<td>256455854</td> \
-					<td>2017-11-8 10:5:39</td> \
+					<td> '+data[i].appId+'</td> \
+					<td>'+data[i].name+'</td> \
+					<td>'+data[i].id+'</td> \
+					<td>'+data[i].phone+'</td> \
+					<td>'+data[i].pwd+'</td> \
+					<td>'+data[i].qq+'</td> \
+					<td>'+data[i].creatTime+'</td> \
 					<td  style="color:green">在线</td> \
 					<td>168.94.44.15</td> \
-					<td>2017-11-8 10:5:39</td> \
+					<td>'+data[i].updateTime+'</td> \
 					<td style="color:green">在线</td> \
 					<td><a class="adds btn demo-2"></a><a class="delect btn demo-3"></a></td> \
 					</tr>';

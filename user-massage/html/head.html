@@ -30,7 +30,7 @@
 							</div>
 							<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
 								<li role="presentation">
-									<a role="menuitem" tabindex="-1" href="login.html" target="_parent" style="text-align:center;outline: none;">退出</a>
+									<a role="menuitem" href = "login.html" tabindex="-1" id="islogin_out" target="_parent" style="text-align:center;outline: none;">退出</a>
 								</li>
 							</ul>
 					</div>
@@ -38,8 +38,28 @@
 			<div id="hidetui">退出登陆</div>
 		</header>
 		<script>
+			var url="http://www.jindi163.com:8888/";
 			var manage=window.sessionStorage.getItem("panage");
 			$("#panages").text(manage);
+			
+			$("#islogin_out").on('click',function(){
+				$.ajax({
+					type: "post",
+					url: url+"manage/user/login_out.do",
+					dataType: "json",
+					headers:{contentType: "application/json"},
+					success: function(res) {
+						console.log(res)
+						if(res.status == 0) {
+							window.sessionStorage.clearItem("panage");
+							
+						}
+					},
+					error: function(err) {
+						console.log("参数异常!")
+					}
+				})
+			})
 		</script>
 	</body>
 </html>
