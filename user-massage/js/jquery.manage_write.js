@@ -30,7 +30,7 @@
     m.tplBase += "</div>";
 
     m.tplHeader = "<div class=\"gdialog-header\">{{title}}</div>";
-    m.tplInput = "<div class=\"gdialog-field\"><input type=\"text\" placeholder=\"请输入要修改的密码\"></div>";
+    m.tplInput = "<div class=\"gdialog-field\"><input type=\"text\" placeholder=\"请输入要修改的密码\" id=\"write\"></div>";
 
     m.getTeplate = function(type, message, options){
         var t = m.tplBase;
@@ -98,29 +98,32 @@
                  * 
                  * 
                  * */
+                if ($("#write").val()=="") {
+                	alert("内容不能为空!")
+                } else{
+                	
                 
               
-               $.ajax({//点击确认按钮时，执行提交功能，后台删除数据
-					type:"post",
-					url:"https://jindi163.com:8443/JDLot/admin/log/info",
-					data:{
-					pageNum:1,
-					pageSize:20
-				},
-					dataType:'json',
-					contentType:"application/json",
-					success:function(data){
-					var data= data.datas;
-					console.log(data)
-					setTimeout(function(){
-						window.location.href="manage_list.html";
-							that.close();
-					},2000)
-					
-				
-					}
-			})
-            });
+	               $.ajax({//点击确认按钮时，执行提交功能，后台删除数据
+						type:"post",
+						url:"https://jindi163.com:8443/JDLot/admin/log/info",
+						data:{
+						pageNum:1,
+						pageSize:20
+					},
+						dataType:'json',
+						contentType:"application/json",
+						success:function(data){
+						var data= data.datas;
+						console.log(data)
+						setTimeout(function(){
+							window.location.href="manage_list.html";
+								that.close();
+								},2000)
+							}
+					})
+	             }  
+        	});
             that.btnCancel.on("click", function(e){
                 e.preventDefault();
                 var res = false;

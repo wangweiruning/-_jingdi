@@ -123,9 +123,9 @@
                  * 
                  * 
                  * */
-               var manage =  	window.sessionStorage.getItem("manage");
-               var user   =  	window.sessionStorage.getItem("user_id");
-               var mima   =  	$('#mima').val();//输入的新密码              
+               var manage 	=  	window.sessionStorage.getItem("manage");
+               var user   	=  	window.sessionStorage.getItem("user_id");
+               var mima   	=  	$('#mima').val();//输入的新密码              
                
                $.ajax({//点击确认按钮时，执行提交功能，后台删除数据
 					type:"post",

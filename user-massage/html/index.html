@@ -14,12 +14,12 @@
 		</style>
 		<script src="../js/jquery-3.1.1.min.js"></script>
 		<script type="text/javascript">
-			var usename = window.sessionStorage.getItem("panage");
+			var usename = window.sessionStorage.getItem("panage");//获取管理员账号
 			//	alert(usename)
 			if(usename == "" || usename == undefined) {
-				window.location.href = "login.html"
+						window.location.href = "login.html"
 			} else {
-				//		window.location.href="index.html"
+						window.location.href="index.html"
 			}
 		</script>
 		<!--框架高度设置-->

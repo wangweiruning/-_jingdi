@@ -58,7 +58,7 @@
     m.tplBase += "</div>";
 
     m.tplHeader = "<div class=\"gdialog-header\">{{title}}</div>";
-    m.tplInput = "<div class=\"gdialog-field\"><input type=\"text\" placeholder=\"请输入要修改的状态(已完成/审核中)\"></div>";
+    m.tplInput = "<div class=\"gdialog-field\"><input type=\"text\" placeholder=\"请输入要修改的状态(已完成/审核中)\" id=\"sures\"></div>";
 
     m.getTeplate = function(type, message, options){
         var t = m.tplBase;
@@ -127,6 +127,12 @@
                  * 
                  * */
                 
+              if ($("#sures").val()=="") {//如果没有输入内容，提示不能提交
+              	
+              	  alert("输入内容不能为空!")
+              
+              } else{
+              	
               
                $.ajax({//点击确认按钮时，执行提交功能，后台删除数据
 					type:"post",
@@ -147,8 +153,9 @@
 					
 				
 					}
-			})
-            });
+			   })
+            }     
+        });
             that.btnCancel.on("click", function(e){
                 e.preventDefault();
                 var res = false;
