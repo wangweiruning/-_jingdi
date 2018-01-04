@@ -12,14 +12,11 @@
 				scrollbar-shadow-color: DEEFC6;
 			}
 		</style>
-		<script src="../js/jquery-3.1.1.min.js"></script>
+	<script src="../js/jquery-3.1.1.min.js"></script>
 		<script type="text/javascript">
 			var usename = window.sessionStorage.getItem("panage");//获取管理员账号
-			//	alert(usename)
-			if(usename == "" || usename == undefined) {
-						window.location.href = "login.html"
-			} else {
-						window.location.href="index.html"
+			if(!usename) {
+						window.location.href = "login.html";
 			}
 		</script>
 		<!--框架高度设置-->
@@ -41,5 +38,5 @@
 			您的浏览器不支持frame框架，请更换浏览器！谢谢
 		</body>
 	</noframes>
-
+	
 </html>

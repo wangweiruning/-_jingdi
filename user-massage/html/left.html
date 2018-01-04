@@ -36,7 +36,7 @@
     <div style="display:none" class="menu_body" >
       <a href="get_moeny.html" target="main">收入详情</a>
     </div>
-     <p class="menu_head">管理员操作记录</p>
+     <p class="menu_head" id="manage_sue">管理员操作记录</p>
     <div style="display:none" class="menu_body" >
       <a href="logo_setate.html" target="main">登录状态</a>
       <a href="logo_delect.html" target="main">删除记录</a>
@@ -60,10 +60,19 @@ $(document).ready(function(){
   	  $(this).addClass("colors").siblings().removeClass("colors");
   })
   var titles = window.sessionStorage.getItem("panage");
-  if(titles!="admin"){
+
+ /*
+  * 
+  * 管理员权限判断，如果为大管理，则显示-----管理员操作记录  设置管理员
+  * 
+  *
+  */
+  if(titles!="admin"){  
   	$("#meun_last").hide();
+  	$("#manage_sue").hide();
   }else{
   	$("#meun_last").show();
+  	$("#manage_sue").show();
   }
 });
 </script>

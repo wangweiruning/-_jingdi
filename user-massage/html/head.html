@@ -16,11 +16,11 @@
 	</head>
 	<body>
 		<header>
-			<div id="lefts_head" class="f_l">
+			<div id="lefts_head" class="f_l" style="width:20%">
 				<img src="http://www.uugai.com/logoa/wt.php" alt="logo图标"/>
 			</div>
-			<h2 class="f_l" >精帝软件后台管理系统</h2>
-			<div id="right_head" class="f_r">
+			<h2 class="f_l" style="width:60%">精帝软件后台管理系统</h2>
+			<div id="right_head" class="f_r" style="width:20%">
 				
 					<div class="dropdown" style="height:48px">
 							<div  class="btn dropdown-toggle" id="dropdownMenu1" 
@@ -51,7 +51,7 @@
 					success: function(res) {
 						console.log(res)
 						if(res.status == 0) {
-							window.sessionStorage.clearItem("panage");
+//							window.sessionStorage.clearItem("panage");
 						}
 					},
 					error: function(err) {

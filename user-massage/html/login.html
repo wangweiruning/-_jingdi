@@ -51,7 +51,7 @@
 		<script src="../js/supersized-init.js"></script>
 		<script>
 			var URL ="http://www.jindi163.com:8888/";
-			$(".btn").click(function() {
+			$(".btn").click(function() {//点击确定时关闭弹出窗口
 				is_hide();
 			})
 			var u = $("input[name=username]");
@@ -72,7 +72,6 @@
 						var phono = u.val();
 						var pwd = p.val();
 						istrue(pwd, phono); //执行的判断
-						//document.location.href="index.html";
 					}
 				}
 
