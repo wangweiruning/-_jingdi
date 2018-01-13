@@ -77,7 +77,7 @@ var url = "http://www.jindi163.com:8888/";
 		console.log(effectiveTime)
 		$('#tables table tbody').empty();
 		$.ajax({
-			type:"post",
+			type:"OPTIONS",
 			url:url+"manage/code/insert",
 			data:{
 			count:count, 
@@ -119,6 +119,7 @@ laypage({
 })
 },
 error:function(err){
+	console.log(err)
 	if(err.readyState==0){
 		
 		alert("请先登录")

@@ -97,8 +97,13 @@ $(function(){
 			type:"post",
 			url:url+"manage/user/list.do",
 			dataType:'json',
-			contentType:"application/json",
-		success:function(data){
+			xhrFields: {
+           		 withCredentials: true
+        	},
+       		crossDomain: true,
+			async:false,
+			contentType: "application/json",
+			success:function(data){
 			console.log(data)
 			var data= data.data.list;
 		  	var nums = 20; //每页出现的数量

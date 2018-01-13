@@ -84,7 +84,7 @@
 					url: URL+"manage/user/login.do",
 					dataType: "json",
 					headers:{contentType: "application/json"},
-					data: {
+						data: {
 						"password": pwd,
 						"username": phono
 					},
@@ -92,6 +92,7 @@
 						console.log(res)
 						if(res.status == 0) {
 							window.location.href = "index.html";
+
 						} else {
 							$("#ts").html("您输入的密码与用户名不匹配");
 							is_show();
