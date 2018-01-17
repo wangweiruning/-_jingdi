@@ -75,6 +75,8 @@ var url="http://www.jindi163.com:8888/";
 	
    
 	function diaoyong(){
+		var token = window.localStorage.getItem("token");
+		console.log(token);
 		var name =$("#pay_num").val();
 		var pwd =$("#creat_num").val();
 		console.log(pwd)
@@ -84,7 +86,8 @@ var url="http://www.jindi163.com:8888/";
 			url:url+"manage/user/insert.do",
 			data:{
 			name:name,
-			pwd:pwd
+			pwd:pwd,
+			token:token
 		},
 			dataType:'json',
 			headers:{contentType:"application/json"},

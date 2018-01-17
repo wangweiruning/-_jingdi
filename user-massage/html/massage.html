@@ -65,7 +65,6 @@
 					<th>登录ip</th>
 					<th>下线时间</th>
 					<th>状态</th>
-					<th>操作</th>
 				</tr>
 			</thead>
 			<tbody id="biuuu_city_list" >
@@ -92,23 +91,21 @@ $(function(){
    
   		 diaoyong()
 	function diaoyong(){
+		var token = window.localStorage.getItem("token");
+		console.log(token);
 		$('#tables table tbody').empty();
 		$.ajax({
 			type:"post",
 			url:url+"manage/user/list.do",
 			dataType:'json',
-			xhrFields: {
-           		 withCredentials: true
-        	},
-       		crossDomain: true,
-			async:false,
-			contentType: "application/json",
+			data:{"token":token},
+			headers:{contentType:"application/json"},
 			success:function(data){
 			console.log(data)
 			var data= data.data.list;
 		  	var nums = 20; //每页出现的数量
-		//	var pages = Math.ceil(data.length/nums); //得到总页数
-			var pages=10;
+			var pages = Math.ceil(data.length/nums); //得到总页数
+//			var pages=data.length;
 			var thisDate = function(curr){
 		    //此处只是演示，实际场景通常是返回已经当前页已经分组好的数据
 		    var str = '', last = curr*nums - 1;
@@ -122,7 +119,7 @@ $(function(){
 					<td> '+data[i].appId+'</td> \
 					<td>'+data[i].name+'</td> \
 					<td>'+data[i].id+'</td> \
-					<td>'+data[i].phone+'</td> \
+					<td>'+data[i].name+'</td> \
 					<td>'+data[i].pwd+'</td> \
 					<td>'+data[i].qq+'</td> \
 					<td>'+data[i].creatTime+'</td> \
@@ -130,7 +127,6 @@ $(function(){
 					<td>168.94.44.15</td> \
 					<td>'+data[i].updateTime+'</td> \
 					<td style="color:green">在线</td> \
-					<td><a class="adds btn demo-2"></a><a class="delect btn demo-3"></a></td> \
 					</tr>';
 		    }
     	return str;
@@ -150,7 +146,7 @@ $(function(){
 						 	var user =  $(this).parent().siblings().eq(4).text()+i;
 						 	window.sessionStorage.setItem("user_id",user);
 						 	 
-						 	 	$.glog.confirm("你确定要确认删除该用户吗?", {
+						 	 	$.glog.confirm("你确定要确认删除该用户吗?",{
 							    title: "删除",
 								animateIn : "bounceInDown",
 							    animateOut: "bounceOutUp"

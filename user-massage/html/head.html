@@ -41,7 +41,10 @@
 			var url="http://www.jindi163.com:8888/";
 			var manage=window.sessionStorage.getItem("panage");
 			$("#panages").text(manage);
-			
+				var reg = islogin();
+				if(!reg){
+					window.location.href="login.html";
+				}
 			$("#islogin_out").on('click',function(){
 				$.ajax({
 					type: "post",
@@ -50,8 +53,8 @@
 					headers:{contentType: "application/json"},
 					success: function(res) {
 						console.log(res)
-						if(res.status == 0) {
-//							window.sessionStorage.clearItem("panage");
+						if(res.status == "0") {
+							window.sessionStorage.clear("panage");
 						}
 					},
 					error: function(err) {

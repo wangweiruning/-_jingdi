@@ -75,19 +75,28 @@ var url = "http://www.jindi163.com:8888/";
    
 	function diaoyong(count,price,effectiveTime){
 		console.log(effectiveTime)
+		var token = window.localStorage.getItem("token");
+		var uid = window.localStorage.getItem("uid");
+		console.log(token);
 		$('#tables table tbody').empty();
 		$.ajax({
-			type:"OPTIONS",
+			type:"post",
 			url:url+"manage/code/insert",
 			data:{
 			count:count, 
 			price:price, 
 			effectiveTime:effectiveTime,
+			token:token,
+			uid:uid
 		},
 			dataType:'json',
 			headers:{contentType:"application/json"},
 		success:function(data){
 			console.log(data)
+			if(data.status==0){
+				
+				alert("创建成功")
+			}
 			  	var nums = 5; //每页出现的数量
 			  	var data=data.data;
 				var pages = Math.ceil(data.length/nums); //得到总页数
@@ -103,7 +112,6 @@ var url = "http://www.jindi163.com:8888/";
 		    for(var i = (curr*nums - nums); i <= last; i++){
 		       str +='<tr> \
 					<td>'+data[i]+'</td> \
-					<td>100</td>\
 				</tr>';
 		    }
     	return str;

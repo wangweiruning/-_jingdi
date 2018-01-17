@@ -50,18 +50,18 @@ $(function(){
 	
     diaoyong()
 	function diaoyong(){
+		var token = window.localStorage.getItem("token");
 		$('#tables_table_tbody').empty();
 		$.ajax({
 			type:"post",
-			url:"https://jindi163.com:8443/JDLot/admin/log/info",
+			url:"http://jindi163.com:8888/manage/app/app_list.do",
 			data:{
-			pageNum:1,
-			pageSize:10
+			"token":token
 		},
 			dataType:'json',
-			contentType:"application/json",
+			headers:{contentType:"application/json"},
 		success:function(data){
-			var data= data.datas;
+//			var data= data.datas;
 			console.log(data)
   	var nums = 10; //每页出现的数量
 //	var pages = Math.ceil(data.length/nums); //得到总页数

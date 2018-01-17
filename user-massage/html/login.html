@@ -91,6 +91,8 @@
 					success: function(res) {
 						console.log(res)
 						if(res.status == 0) {
+							window.localStorage.setItem("token",res.data.token);
+							window.localStorage.setItem("uid",res.data.uid);
 							window.location.href = "index.html";
 
 						} else {

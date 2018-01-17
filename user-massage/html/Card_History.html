@@ -28,16 +28,14 @@
 		<table border="1" cellspacing="0">
 			<thead>
 				<tr cellspacing="0">
-					<th>充值卡类型</th>
+					<th>充值软件</th>
 					<th>卡号</th>
-					<th>密码</th>
 					<th>单价</th>
-					<th>时间(天)</th>
-					<th>创建时间</th>
-					<th>创建人</th>
-					<th>是否被使用</th>
+					<th>有效时间</th>
 					<th>使用时间</th>
-					<th>使用账号</th>
+					<th>到期时间</th>
+					<th>使用者id</th>
+					<th>状态</th>
 				</tr>
 			</thead>
 			<tbody id="biuuu_city_list">
@@ -53,7 +51,7 @@
 		
 
 $(function(){
-
+var url="http://www.jindi163.com:8888/";
 	$("#btns").on("click",function(){
 		var ff =$("#time_zero").val();
 		diaoyong()
@@ -62,41 +60,56 @@ $(function(){
 	
     diaoyong()
 	function diaoyong(){
+		var token = window.localStorage.getItem("token");
+		var uid = window.localStorage.getItem("uid");
+		console.log(token)
 		$('#tables table tbody').empty();
 		$.ajax({
 			type:"post",
-			url:"https://jindi163.com:8443/JDLot/admin/log/info",
-			data:{
-			pageNum:1,
-			pageSize:10
-		},
+			url:url+"manage/code/list_con",
 			dataType:'json',
-			contentType:"application/json",
+			data:{"token":token,"status":1},
+			headers:{contentType:"application/json"},
+
 		success:function(data){
-			var data= data.datas;
+			var data= data.data.list;
 			console.log(data)
   	var nums = 5; //每页出现的数量
-//	var pages = Math.ceil(data.length/nums); //得到总页数
-	var pages=10;
+	var pages = Math.ceil(data.length/nums); //得到总页数
 	var thisDate = function(curr){
 		    //此处只是演示，实际场景通常是返回已经当前页已经分组好的数据
 		    var str = '', last = curr*nums - 1;
-//		    last = last >= data.length ? (data.length-1) : last;
+		    last = last >= data.length ? (data.length-1) : last;
 
 		    var htmlp='';
 		
 		    for(var i = (curr*nums - nums); i <= last; i++){
+		    	var time=data[i].effective;
+		    	if (time=="1") {
+		    		time="一周";
+		    	} else if(time=="2"){
+		    		time="一月";
+		    	}
+		    	else if(time=="3"){
+		    		time="半年";
+		    	}
+		    	else if(time=="4"){
+		    		time="一年";
+		    	}
+		    	else if(time=="5"){
+		    		time="永久";
+		    	}else{
+		    		time="一天";
+		    	}
 		       str+='<tr> \
-					<td>通用'+i+'</td> \
-					<td>13132515</td> \
-					<td>aaasfs</td>\
-					<td>0</td>\
-					<td>30</td>\
-					<td>2017-11-11 16:52:45</td>\
-					<td> </td>\
-					<td style="color:red">已被使用</td>\
-					<td>2017-11-11 16:52:45</td>\
-					<td>534654fghfd</td>\
+					<td>通用</td> \
+					<td>'+data[i].code+'</td> \
+					<td>'+data[i].price+'</td>\
+					<td>'+time+'</td>\
+					<td>'+data[i].createTime+'</td>\
+					<td>'+data[i].startUseTime+'</td>\
+					<td>'+data[i].useUser+'</td>\
+					<td>'+(data[i].status=="0"?"未激活":"已激活")+'</td>\
 				</tr>';
 		    }
     	return str;

@@ -42,17 +42,24 @@
 		
 
 $(function(){
-	
     diaoyong()
 	function diaoyong(){
 		$('#tables_table_tbody').empty();
+		var token = window.localStorage.getItem("token");
+			console.log(token);
+		
 		$.ajax({
 			type:"post",
 			url:"https://jindi163.com:8443/JDLot/admin/log/info",
 			data:{
 			pageNum:1,
-			pageSize:10
+			pageSize:10,
+			token:token
 		},
+		xhrFields: {
+           		 withCredentials: true
+        	},
+       		crossDomain: true,
 			dataType:'json',
 			contentType:"application/json",
 		success:function(data){
