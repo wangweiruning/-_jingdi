@@ -1,0 +1,244 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=8" >
+<title>会议列表</title>
+<link rel="stylesheet" type="text/css" href="../css/reset.css"/>
+<link rel="stylesheet" type="text/css" href="../css/common.css"/>
+<link rel="stylesheet" type="text/css" href="../css/massage.css"/>
+<script type="text/javascript" src="../js/jquery-3.1.1.min.js"></script>
+<script src="../js/laypage.js"></script>
+<style type="text/css">
+	.change_all{
+		width:100%;
+		height:10rem;
+	}
+	#change{
+		width:20%;
+		height:2rem;
+		font-size: 18px;
+		line-height: 2rem;
+	}
+	#submit{
+		display: inline-block;
+		width:20%;
+		height:2rem;
+	}
+	.pay_list{
+		width:100%;
+		line-height: 2rem;
+		font-weight: bold;
+	}
+	.pay_list li{
+		display: inline-block;
+		width:10rem;
+		height:4rem;
+		padding:0 1rem;
+		float: left;
+	}
+	.pay_list li input{
+		display: inline-block;
+		height:2rem;
+	}
+	.delect{
+		display: block;
+		width:2rem;
+		background: #FF7777;
+		border: none;
+		color:#FFFFFF;
+	}
+</style>
+</head>
+
+<body style="background: #FFFFFF;">
+<div id="right_ctn">
+	<div id="allcent">
+		<ul class="headss">
+			<li><a href="index.html" target="_parent">用户首页<span>&gt;</span></a></li>
+			<li><a href="#">设置管理员<span>&gt;</span></a></li>
+			<li><a href="">管理员修改信息</a></li>
+		</ul>
+	</div>
+	<div class="change_all">
+		<select name="change" id="change">
+				<option value="1">pc端</option>
+				<option value="2">安卓</option>
+				<option value="3">ios</option>
+		</select>
+		<input type="submit" id="submit"  value="添加广告"/>
+		<ul class="pay_list">
+			<li><label for="weekend">软件id:</label><input type="text" placeholder="请输入软件id" name="weekend" id="weekend" value=""/></li>
+			<li><label for="monthPrice">图片url:</label><input type="text" placeholder="请输入图片url" name="monthPrice" id="monthPrice" value=""/></li>
+			<li><label for="halfYearPrice">链接url:</label><input type="text" placeholder="请输入链接url" name="halfYearPrice" id="halfYearPrice" value=""/></li>
+			<li><label for="yearPrice">链接名字:</label><input type="text" placeholder="请输入链接名字" name="yearPrice" id="yearPrice" value=""/></li>
+			</ul>
+	</div>
+	<div id="tables">
+		<table border="1" cellspacing="0">
+			<thead>
+				<tr cellspacing="0">
+					<th>软件id</th>
+					<th>图片id</th>
+					<th>适用于</th>
+					<th>网站名字</th>
+					<th>url链接</th>
+					<th>图片地址</th>
+					<th>操作</th>
+				</tr>
+			</thead>
+			<tbody id="biuuu_city_list">
+				
+			</tbody>
+		</table>
+		<div id="biuuu_city"></div>
+	</div>
+</div>
+<script>
+		
+
+$(function(){
+	
+    diaoyong()
+	function diaoyong(){
+		var token = window.localStorage.getItem("token");
+		var uid = window.localStorage.getItem("uid");
+		$('#tables_table_tbody').empty();
+		$.ajax({
+			type:"post",
+			url:"http://jindi163.com:8888/manage/adver/list",
+			data:{
+			"token":token,
+			"uid":uid,
+			"pageNum":"1",
+			"pageSize":"20"
+		},
+			dataType:'json',
+			headers:{contentType:"application/json"},
+		success:function(data){
+			if(data.status=="10"){
+					window.open("login.html");
+				}
+			var data= data.data.list;
+			console.log(data)
+  	var nums = 20; //每页出现的数量
+	var pages = Math.ceil((data.length)/nums); //得到总页数
+	var thisDate = function(curr){
+		    //此处只是演示，实际场景通常是返回已经当前页已经分组好的数据
+		    var str = '', last = curr*nums - 1;
+		    last = last >= data.length ? (data.length-1) : last;
+
+		    var htmlp='';
+
+		    for(var i = (curr*nums - nums); i <= last; i++){
+		    	var os = data[i].os;
+		    	if (os==1) {
+		    		os="pc端";
+		    	} else if(os==2){
+		    		os="安卓";
+		    	}else{
+		    		os="ios";
+		    	}
+		       str+='<tr> \
+					<td>'+data[i].appId+'</td> \
+					<td>'+data[i].id+'</td>\
+					<td>'+os+'</td> \
+					<td>'+data[i].name+'</td> \
+					<td>'+data[i].url+'</td>\
+					<td><img src="'+data[i].img+'" style="width:100px"></td>\
+					<td><input type="button" value="删除" class="delect"></td>\
+				</tr>';
+
+		    }
+    	return str;
+	};
+
+//调用分页
+laypage({
+    cont: 'biuuu_city',//分页挂载点
+    pages: pages,
+    jump: function(obj){
+        document.getElementById('biuuu_city_list').innerHTML = thisDate(obj.curr);//biuuu_city_list 数据展示挂载点
+        
+        
+        $(".delect").each(function(){
+	$(this).click( function(){
+		var id = $(this).parent().siblings().eq(1).html();
+		console.log(id)
+	var appid= $("#change option:checked").val();
+	var token = window.localStorage.getItem("token");
+	var uid = window.localStorage.getItem("uid");
+			$.ajax({
+				type:"post",
+				url:"http://www.jindi163.com:8888/manage/adver/delete",
+				data:{
+				"token":token,
+				"id":id,
+				"uid":uid
+			},
+				dataType:'json',
+				headers:{contentType:"application/json"},
+			success:function(data){
+				if(data.status=="0"){
+					alert(data.data);
+					window.location.href="img_list.html";
+				}
+		},
+		error:function(err){
+			alert('操作失败')
+//			console.log(err)
+		}
+	})
+})
+})
+    }
+})
+}
+})
+}
+	$("#submit").click(function(){
+		add()
+	})
+
+
+    function add(){
+    	var ioss= $("#change option:checked").val();
+		var token = window.localStorage.getItem("token");
+		var uid = window.localStorage.getItem("uid");
+		var appId = $("#weekend").val();
+		var img = $("#monthPrice").val();
+		var url = $("#halfYearPrice").val();
+		var name = $("#yearPrice").val();
+		
+		$.ajax({
+			type:"post",
+			url:"http://jindi163.com:8888/manage/adver/add",
+			data:{
+			"token":token,
+			"uid":uid,
+			"appId":appId,
+			"name":name,
+			"url":url,
+			"img":img,
+			"os":ioss
+		},
+			dataType:'json',
+			headers:{contentType:"application/json"},
+		success:function(data){
+			if(data.status=="0"){
+					alert(data.data);
+					window.location.href="img_list.html";
+				}
+			
+		},
+		error:function(res){
+			alert("参数错误")
+		}
+	})
+    }
+
+
+
+})
+</script>
+</body>
+</html>

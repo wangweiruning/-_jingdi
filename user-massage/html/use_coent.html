@@ -43,61 +43,64 @@
 </body>
 </html>
 <script>
-		
-
-$(function(){
-	
-    diaoyong()
-	function diaoyong(){
-		$('#tables_table_tbody').empty();
-		$.ajax({
-			type:"post",
-			url:"https://jindi163.com:8443/JDLot/admin/log/info",
-			data:{
-			pageNum:1,
-			pageSize:10
-		},
+isshows();
+	function isshows(){
+		var token = window.localStorage.getItem("token");
+		var uid = window.localStorage.getItem("uid");
+		var code=$('#time_tow').val();
+        $.ajax({  
+           type:"post",
+			url:"http://www.jindi163.com:8888/manage/user/count.do",
 			dataType:'json',
-			contentType:"application/json",
-		success:function(data){
-			var data= data.datas;
-			console.log(data)
-  	var nums = 5; //每页出现的数量
-//	var pages = Math.ceil(data.length/nums); //得到总页数
-	var pages=10;
-	var thisDate = function(curr){
-		    //此处只是演示，实际场景通常是返回已经当前页已经分组好的数据
-		    var str = '', last = curr*nums - 1;
-//		    last = last >= data.length ? (data.length-1) : last;
+			data:{"token":token},
+			headers:{contentType:"application/json"},
 
-		    var htmlp='';
-		
-		    for(var i = (curr*nums - nums); i <= last; i++){
-		       str+='<tr> \
-					<td>'+i+'</td> \
-					<td>超神五码</td> \
-					<td>23</td>\
-					<td>34</td>\
-					<td>145</td>\
-					<td>4354</td>\
-					<td> 435345</td>\
-					<td>456456</td>\
-				</tr>';
-		    }
-    	return str;
-	};
-
-//调用分页
-laypage({
-    cont: 'biuuu_city',//分页挂载点
-    pages: pages,
-    jump: function(obj){
-        document.getElementById('biuuu_city_list').innerHTML = thisDate(obj.curr);//biuuu_city_list 数据展示挂载点
-    }
-})
-}
-})
-}
-})
+		success:function(msg){
+			if(msg.status=="10"){
+					window.open("login.html");
+				}
+				console.log(msg)
+              	var result= msg.data;
+				$('#biuuu_city_list').empty();
+				var str="";
+                for(var i=0;i<result.length;i++){
+      					var text=i+1;
+      					if (text==1) {
+      						text="必中pk10"
+      					} else if(text==2){
+      						text="重庆时时彩"
+      					}
+      					else if(text==3){
+      						text="幸运飞艇"
+      					}
+      					else if(text==4){
+      						text="快三"
+      					}
+      					else if(text==5){
+      						text="重庆时时彩杀号"
+      					}
+      					else if(text==6){
+      						text="北京PK10杀号"
+      					}
+               			 str+='<tr> \
+							<td>'+(1+i)+'</td> \
+							<td>'+text+'</td> \
+							<td>'+result[i].today+'</td>\
+							<td>'+result[i].yestday+'</td>\
+							<td>'+result[i].thisWeek+'</td>\
+							<td>'+result[i].thisMonth+'</td>\
+							<td>'+result[i].lastMonth+'</td>\
+							<td>'+result[i].allCount+'</td>\
+							</tr>';
+		                    		
+                }  
+                //追加渲染到页面  
+                $('#biuuu_city_list').html(str)  
+ 
+           
+          
+          }
+    })
+ }
 </script>
 

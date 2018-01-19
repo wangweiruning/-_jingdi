@@ -1,0 +1,193 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=8" >
+<title>会议列表</title>
+<link rel="stylesheet" type="text/css" href="../css/reset.css"/>
+<link rel="stylesheet" type="text/css" href="../css/common.css"/>
+<link rel="stylesheet" type="text/css" href="../css/massage.css"/>
+<script type="text/javascript" src="../js/jquery-3.1.1.min.js"></script>
+<script src="../js/laypage.js"></script>
+<style type="text/css">
+		.change_all{
+		width:100%;
+		height:10rem;
+	}
+	#change{
+		width:20%;
+		height:2rem;
+		font-size: 18px;
+		line-height: 2rem;
+	}
+	#submit{
+		display: inline-block;
+		width:20%;
+		height:2rem;
+	}
+	.pay_list{
+		width:60%;
+		margin: 0 auto;
+		line-height: 2rem;
+		font-weight: bold;
+	}
+	.pay_list li{
+		display: inline-block;
+		width:10rem;
+		height:4rem;
+		padding:0 1rem;
+		float: left;
+	}
+	.pay_list li input{
+		display: inline-block;
+		height:2rem;
+	}
+	.delect{
+		display: block;
+		width:2rem;
+		background: #FF7777;
+		border: none;
+		color:#FFFFFF;
+	}
+</style>
+</head>
+
+<body>
+<div id="right_ctn">
+	<div id="allcent">
+		<ul class="headss">
+			<li><a href="index.html" target="_parent">用户首页<span>&gt;</span></li>
+			<li><a href="#">充值卡<span>&gt;</span></a></li></a>
+			<li><a href="">充值卡链接</a></li>
+		</ul>
+	</div>
+	<div class="change_all">
+		<select name="change" id="change">
+				<option value="周">一周</option>
+				<option value="月">一月</option>
+				<option value="半年">半年</option>
+				<option value="年">一年</option>
+				<option value="永久">永久</option>
+				<option value="天">一天</option>
+		</select>
+		<input type="submit" id="submit"  value="修改地址"/>
+		<ul class="pay_list">
+			<li><label for="weekend">序列编号:</label><input type="text" placeholder="序列编号" name="weekend" id="weekend" value=""/></li>
+			<li><label for="monthPrice">url链接地址:</label><input type="text" placeholder="请输入url" name="monthPrice" id="monthPrice" value=""/></li>	
+		</ul>
+	</div>
+	<div id="tables">
+		<table border="1" cellspacing="0">
+			<thead>
+				<tr cellspacing="0">
+					<th>序列编号</th>
+					<th>类型</th>
+					<th>url链接</th>
+				</tr>
+			</thead>
+			<tbody id="biuuu_city_list">
+				
+			</tbody>
+		</table>
+		<div id="biuuu_city"></div>
+	</div>
+</div>
+</body>
+</html>
+<script>
+		
+
+$(function(){
+	
+	
+    diaoyong()
+	function diaoyong(){
+		var url="http://www.jindi163.com:8888/";
+		var token = window.localStorage.getItem("token");
+		var uid = window.localStorage.getItem("uid");
+		console.log(token)
+		$('#tables table tbody').empty();
+		$.ajax({
+			type:"post",
+			url:url+"manage/price/list",
+			dataType:'json',
+			data:{"token":token,"uid":uid},
+			headers:{contentType:"application/json"},
+
+		success:function(data){
+			if(data.status=="10"){
+					window.open("login.html");
+				}
+			var data= data.data;
+			console.log(data)
+  	var nums = 10; //每页出现的数量
+	var pages = Math.ceil(data.length/nums); //得到总页数
+	var thisDate = function(curr){
+		    //此处只是演示，实际场景通常是返回已经当前页已经分组好的数据
+		    var str = '', last = curr*nums - 1;
+		    last = last >= data.length ? (data.length-1) : last;
+
+		    var htmlp='';
+		
+		    for(var i = (curr*nums - nums); i <= last; i++){
+		       str+='<tr> \
+					<td>'+data[i].id+'</td> \
+					<td>'+data[i].name+'</td> \
+					<td>'+data[i].url+'</td>\
+				</tr>';
+		    }
+    	return str;
+	};
+
+//调用分页
+laypage({
+    cont: 'biuuu_city',//分页挂载点
+    pages: pages,
+    jump: function(obj){
+        document.getElementById('biuuu_city_list').innerHTML = thisDate(obj.curr);//biuuu_city_list 数据展示挂载点
+    }
+})
+
+}
+})
+}
+	
+	
+	$("#submit").click(function(){
+		
+		var url="http://www.jindi163.com:8888/";
+		var token = window.localStorage.getItem("token");
+		var uid = window.localStorage.getItem("uid");
+		var id=$("#weekend").val();
+		var urls=$("#monthPrice").val();
+		var name= $("#change option:checked").val()+"";
+		console.log(name)
+		console.log(token)
+		$.ajax({
+			type:"post",
+			url:url+"manage/price/update",
+			dataType:'json',
+			data:{
+				"token":token,
+				"id":id,
+				"uid":uid,
+				"name":name,
+				"url":urls},
+			headers:{contentType:"application/json"},
+
+		success:function(data){
+			console.log(data)
+//			var data= data.data;
+		if(data.status=="0"){
+					alert(data.data);
+					window.location.href="Card_turn_list.html";
+			}
+		},
+		error:function(err){
+			alert("修改失败")
+		}
+		})
+	})
+})
+</script>
+
+

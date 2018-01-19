@@ -53,6 +53,9 @@
 					headers:{contentType: "application/json"},
 					success: function(res) {
 						console.log(res)
+						if(res.status=="10"){
+					window.open("login.html");
+				}
 						if(res.status == "0") {
 							window.sessionStorage.clear("panage");
 						}

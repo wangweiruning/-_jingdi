@@ -1,0 +1,193 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=8" >
+<title>会议列表</title>
+<link rel="stylesheet" type="text/css" href="../css/reset.css"/>
+<link rel="stylesheet" type="text/css" href="../css/common.css"/>
+<link rel="stylesheet" type="text/css" href="../css/massage.css"/>
+<script type="text/javascript" src="../js/jquery-3.1.1.min.js"></script>
+<script src="../js/laypage.js"></script>
+<style type="text/css">
+	.change_all{
+		width:100%;
+		height:10rem;
+	}
+	#change{
+		width:20%;
+		height:2rem;
+		font-size: 18px;
+		line-height: 2rem;
+	}
+	#submit{
+		display: inline-block;
+		width:20%;
+		height:2rem;
+	}
+	.pay_list{
+		width:100%;
+		line-height: 2rem;
+	}
+	.pay_list li{
+		display: inline-block;
+		width:10rem;
+		height:4rem;
+		padding:0 1rem;
+		float: left;
+	}
+	.pay_list li input{
+		display: inline-block;
+		height:2rem;
+	}
+</style>
+</head>
+
+<body style="background: #FFFFFF;">
+<div id="right_ctn">
+	<div id="allcent">
+		<ul class="headss">
+			<li><a href="index.html" target="_parent">用户首页<span>&gt;</span></a></li>
+			<li><a href="#">设置管理员<span>&gt;</span></a></li>
+			<li><a href="">管理员修改信息</a></li>
+		</ul>
+	</div>
+	<div class="change_all">
+		<select name="change" id="change">
+
+		</select>
+		<input type="submit" id="submit"  value="提交修改"/>
+		<ul class="pay_list">
+			<li><label for="weekend">一周价:</label><input type="text" placeholder="请输入价格" name="weekend" id="weekend" value=""/></li>
+			<li><label for="monthPrice">月价:</label><input type="text" placeholder="请输入价格" name="monthPrice" id="monthPrice" value=""/></li>
+			<li><label for="halfYearPrice">半年价价:</label><input type="text" placeholder="请输入价格" name="halfYearPrice" id="halfYearPrice" value=""/></li>
+			<li><label for="yearPrice">年价:</label><input type="text" placeholder="请输入价格" name="yearPrice" id="yearPrice" value=""/></li>
+			<li><label for="foreverPrice">永久价:</label><input type="text" placeholder="请输入价格" name="foreverPrice" id="foreverPrice" value=""/></li>
+			<li><label for="qq">管理员QQ:</label><input type="text" placeholder="请输入QQ号" name="qq" id="qq" value=""/></li>
+		</ul>
+	</div>
+	<div id="tables">
+		<table border="1" cellspacing="0">
+			<thead>
+				<tr cellspacing="0">
+					<th>软件id</th>
+					<th>软件名</th>
+					<th>永久价(元)</th>
+					<th>半年价(元)</th>
+					<th>月价(元)</th>
+					<th>一周价(元)</th>
+					<th>一年价(元)</th>
+					<th>客服qq</th>
+					<th>版本号</th>
+				</tr>
+			</thead>
+			<tbody id="biuuu_city_list">
+				
+			</tbody>
+		</table>
+		<div id="biuuu_city"></div>
+	</div>
+</div>
+<script>
+		
+
+$(function(){
+	
+    diaoyong()
+	function diaoyong(){
+		var token = window.localStorage.getItem("token");
+		$('#tables_table_tbody').empty();
+		$.ajax({
+			type:"post",
+			url:"http://jindi163.com:8888/manage/app/app_list.do",
+			data:{
+			"token":token
+		},
+			dataType:'json',
+			headers:{contentType:"application/json"},
+		success:function(data){
+			if(data.status=="10"){
+					window.open("login.html");
+				}
+			var data= data.data;
+			console.log(data)
+  	var nums = 10; //每页出现的数量
+	var pages = Math.ceil((data.length)/nums); //得到总页数
+	var thisDate = function(curr){
+		    //此处只是演示，实际场景通常是返回已经当前页已经分组好的数据
+		    var str = '', last = curr*nums - 1;
+		    last = last >= data.length ? (data.length-1) : last;
+
+		    var htmlp='';
+			var options='';
+		    for(var i = (curr*nums - nums); i <= last; i++){
+		    	options='<option value="'+data[i].id+'" id="'+data[i].id+'">'+data[i].name+'</option>';
+		       str+='<tr> \
+					<td>'+data[i].id+'</td> \
+					<td>'+data[i].name+'</td> \
+					<td>'+data[i].priceForever+'</td>\
+					<td>'+data[i].priceHalfYear+'</td>\
+					<td>'+data[i].priceMonth+'</td>\
+					<td>'+data[i].priceWeek+'</td>\
+					<td> '+data[i].priceYear+'</td>\
+					<td> '+data[i].qq+'</td>\
+					<td>'+data[i].version+'</td>\
+				</tr>';
+				$("#change").append(options)
+		    }
+    	return str;
+	};
+
+//调用分页
+laypage({
+    cont: 'biuuu_city',//分页挂载点
+    pages: pages,
+    jump: function(obj){
+        document.getElementById('biuuu_city_list').innerHTML = thisDate(obj.curr);//biuuu_city_list 数据展示挂载点
+    }
+})
+}
+})
+}
+
+
+
+
+$("#submit").click( function(){
+	var appid= $("#change option:checked").val();
+	var token = window.localStorage.getItem("token");
+	var weekPrice = $("#weekend").val();
+	var monthPrice = $("#monthPrice").val();
+	var halfYearPrice = $("#halfYearPrice").val();
+	var yearPrice = $("#yearPrice").val();
+	var foreverPrice = $("#foreverPrice").val();
+	var qq = $("#qq").val();
+	console.log(appid +"====="+weekPrice+"====="+ monthPrice +"====="+halfYearPrice+"====="+ yearPrice +"====="+foreverPrice)
+
+			$.ajax({
+				type:"post",
+				url:"http://www.jindi163.com:8888/manage/app/app_update.do",
+				data:{
+				"token":token,
+				"appId":appid,
+				"weekPrice":weekPrice,
+				"monthPrice":monthPrice,
+				"halfYearPrice":halfYearPrice,
+				"yearPrice":yearPrice,
+				"foreverPrice":foreverPrice,
+				"qq":qq
+			},
+				dataType:'json',
+				headers:{contentType:"application/json"},
+			success:function(data){
+//				alert(data.data);
+				window.location.href="change_paynum.html";
+		},
+		error:function(err){
+			console.log(err)
+		}
+	})
+})
+})
+</script>
+</body>
+</html>

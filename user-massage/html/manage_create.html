@@ -46,7 +46,7 @@
 			<input type="bumber" id="creat_num" placeholder="请输入密码"/>
 			<input type="button" name="btns" id="btns" value="创建管理员" />
 		</div>
-		<p style="text-align: left;text-indent: 20px;font-weight: bold;">新添加的管理员账号:</p>
+		<!--<p style="text-align: left;text-indent: 20px;font-weight: bold;">新添加的管理员账号:</p>
 		<div  style="min-height:400px;border:#0153A3 solid 1px;">
 		<table border="1" cellspacing="0">
 			<thead id="create_head">
@@ -57,7 +57,7 @@
 			</tbody>
 		</table>
 		<div id="biuuu_city"></div>
-		</div>
+		</div>-->
 	</div>
 </div>
 </body>
@@ -92,24 +92,17 @@ var url="http://www.jindi163.com:8888/";
 			dataType:'json',
 			headers:{contentType:"application/json"},
 		success:function(data){
+			if(data.status=="10"){
+					window.open("login.html");
+				}
 			console.log(data)
-			var data= data.datas;
- var htmlp='<tr cellspacing="0">\
-					<th>创建时间</th>\
-					<th>管理员账号</th>\
-					<th>密码</th>\
-				</tr>';
-				$("#create_head").html(htmlp);
+			var data= data.msg;
+			alert(data)
 
-		    var str = ''; 
-		       str+='<tr> \
-					<td>2017-11-11 16:52:45</td> \
-					<td>13132515</td> \
-					<td>aaasfs</td>\
-				</tr>';
-				document.getElementById('biuuu_city_list').innerHTML = str;//biuuu_city_list 数据展示挂载点
-
-	}
+			},
+			error:function(err){
+				alert('失败！')
+			}
 
 })
 }

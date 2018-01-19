@@ -8,6 +8,11 @@
 <link rel="stylesheet" type="text/css" href="../css/massage.css"/>
 <script type="text/javascript" src="../js/jquery-3.1.1.min.js"></script>
 <script src="../js/laypage.js"></script>
+<style type="text/css">
+	#biuuu_city_list{
+		width:100%;
+	}
+</style>
 </head>
 
 <body>
@@ -45,17 +50,9 @@
 		</div>
 		<p style="text-align: left;text-indent: 20px;font-weight: bold;">新创建的卡号:</p>
 		<div  style="min-height:400px;border:#0153A3 solid 1px;">
-		<table border="1" cellspacing="0">
-			<thead id="create_head">
-				
-			</thead>
-			<tbody id="biuuu_city_list">
-				
-			</tbody>
-		</table>
-		<div id="biuuu_city"></div>
-		</div>
-	</div>
+
+			<div id="datas" cols="10" rows="10" ></div>
+			<!--<div id="datas"  style="position: fixed;bottom:-99999px;"></div>-->
 </div>
 </body>
 </html>
@@ -67,6 +64,9 @@ var url = "http://www.jindi163.com:8888/";
 	$("#btns").on("click",function(){
 		var count =$("#pay_num").val();
 		var price =$("#creat_num").val();
+		if (price==""){
+			price=0;
+		}
 		var effectiveTime =$("select option:selected").attr("id");
 		diaoyong(count,price,effectiveTime)
 	})
@@ -78,7 +78,7 @@ var url = "http://www.jindi163.com:8888/";
 		var token = window.localStorage.getItem("token");
 		var uid = window.localStorage.getItem("uid");
 		console.log(token);
-		$('#tables table tbody').empty();
+		$('#datas').empty();
 		$.ajax({
 			type:"post",
 			url:url+"manage/code/insert",
@@ -92,39 +92,28 @@ var url = "http://www.jindi163.com:8888/";
 			dataType:'json',
 			headers:{contentType:"application/json"},
 		success:function(data){
+			if(data.status=="10"){
+					window.open("login.html");
+				}
 			console.log(data)
 			if(data.status==0){
-				
 				alert("创建成功")
 			}
-			  	var nums = 5; //每页出现的数量
 			  	var data=data.data;
-				var pages = Math.ceil(data.length/nums); //得到总页数
-			 var htmlp='<tr cellspacing="0"> \
-								<th>卡号</th> \
-								<th>单价</th> \
-							</tr>';
-				$("#create_head").html(htmlp);
-	var thisDate = function(curr){
-		    //此处只是演示，实际场景通常是返回已经当前页已经分组好的数据
-		    var str = '', last = curr*nums - 1;
-			last = last >= data.length ? (data.length-1) : last;
-		    for(var i = (curr*nums - nums); i <= last; i++){
-		       str +='<tr> \
-					<td>'+data[i]+'</td> \
-				</tr>';
-		    }
-    	return str;
-	};
+		    var str = '';
 
-//调用分页
-laypage({
-    cont: 'biuuu_city',//分页挂载点
-    pages: pages,
-    jump: function(obj){
-        document.getElementById('biuuu_city_list').innerHTML = thisDate(obj.curr);//biuuu_city_list 数据展示挂载点
-    }
-})
+		    for(var i = 0; i <data.length; i++){
+		       str +='<p style="margin-left:20px;text-align:left;font-weight:bolder;">'+ data[i] + '</p>' ;
+		       
+		    }
+
+   			 $('#datas').append(str);
+// 				var list= $('#datas').html();
+// 				 console.log(list);
+// 			  list = list.replace(/<\/?[^>]*>/g,'');
+//				$('#biuuu_city_list').append(list);
+		   
+ 
 },
 error:function(err){
 	console.log(err)
