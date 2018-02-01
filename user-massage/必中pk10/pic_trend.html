@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+<meta charset='UTF-8'>
+<title>号码缩水</title>
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />  
+
+</head>
+<body style='background-color:#2e3b4e;margin: 0;padding: 0;'>
+<div id='ichart-render' style="width: 100%;"></div>
+<script src="js/jquery-3.1.1.min.js"></script>
+<script src='http://www.ichartjs.com/ichart.latest.min.js'></script>
+<script type='text/javascript'>
+$(function(){
+      load_list();
+      function load_list(){
+     $.post('https://www.jindi163.com:8443/JDLot/lot/type/pagelist?PageSize=20&PageNum=1&table_name=pk10',
+                 {},
+                 function(res){
+                  var res = JSON.parse(res);
+                  var da= res.datas;
+                  console.log(res.datas);
+                  var aa="";
+                  var  data=[{ name:"1",value:aa, color:"rgba(240,205,67,0.90)"},{ name:"2",  value:aa,color:"rgba(25,160,227,0.90)"},{ name:"3", value:aa, color:"rgba(75,72,79,0.90)" },{ name:"4", value:aa,color:"rgba(227,117,13,0.90)" },{ name:"5", value:aa,color:"rgba(38,235,222,0.90)" },{name:"6",value:aa,  color:"#0c1bed" },{name:"7", value:aa, color:"#c7c5c5"},{ name:"8",value:aa,color:"#eb382f"},{ name:"9",value:aa,color:"#5c2d2a"},{ name:"0",value:aa,color:"#1ed14a" }];
+  
+                        
+                  for (var i = 0; i < 10; i++) {
+                        aa=da[i].period;
+                        aa= aa.slice(4);
+                        data[i].value=aa;
+                  }
+                  console.log(data)
+                  var widths=$(window).width();
+                  var chart = iChart.create({
+                              render:"ichart-render",
+                              width:widths,
+                              height:widths,
+                              background_color:"#2e3b4e",
+                              gradient:false,
+                              color_factor:0.2,
+                              border:{
+                                    color:"#404c5d",
+                                    width:1
+                              },
+                              align:"center",
+                              offsetx:0,
+                              offsety:0,
+                              sub_option:{
+                                    border:{
+                                          color:"#fefefe",
+                                          width:4
+                                    },
+                                    label:{
+                                          fontweight:300,
+                                          fontsize:18,
+                                          color:"#f5f5f5",
+                                          sign:"square",
+                                          sign_size:12,
+                                          border:{
+                                                color:"#BCBCBC",
+                                                width:1
+                                          },
+                                          background_color:"#fefefe"
+                                    }
+                              },
+                              shadow:false,
+                              shadow_color:"#fafafa",
+                              shadow_blur:10,
+                              showpercent:false,
+                              column_width:"70%",
+                              bar_height:"70%",
+                              radius:"90%",
+                              title:{
+                                    text:"必中计划",
+                                    color:"#e35858",
+                                    fontsize:20,
+                                    font:"微软雅黑",
+                                    textAlign:"center",
+                                    height:30,
+                                    offsetx:0,
+                                    offsety:0
+                              },
+                              subtitle:{
+                                    text:"50期开奖数字",
+                                    color:"#919cad",
+                                    fontsize:16,
+                                    font:"微软雅黑",
+                                    textAlign:"left",
+                                    height:50,
+                                    offsetx:0,
+                                    offsety:6
+                              },
+                              footnote:{
+                                    text:"开奖数字",
+                                    color:"#0966f0",
+                                    fontsize:14,
+                                    font:"微软雅黑",
+                                    textAlign:"right",
+                                    height:30,
+                                    offsetx:-32,
+                                    offsety:0
+                              },
+                              legend:{
+                                    enable:false,
+                                    background_color:"rgba(254,254,254,0.2)",
+                                    color:"#c1cdde",
+                                    fontsize:13,
+                                    border:{
+                                          color:"#2c333d",
+                                          width:0
+                                    },
+                                    column:10,
+                                    align:"right",
+                                    valign:"top",
+                                    offsetx:-32,
+                                    offsety:-40
+                              },
+                              coordinate:{
+                                    width:"92%",
+                                    height:"80%",
+                                    background_color:"rgba(246,246,246,0.05)",
+                                    axis:{
+                                          color:"#bfbfc3",
+                                          width:["","",6,""]
+                                    },
+                                    grid_color:"#c0c0c0",
+                                    label:{
+                                          fontweight:100,
+                                          color:"#f5f5f5",
+                                          fontsize:0
+                                    }
+                              },
+                              label:{
+                                    fontweight:300,
+                                    color:"#f5f5f5",
+                                    fontsize:16
+                              },
+                              type:"column2d",
+                              data:data
+                  });
+                  
+                  chart.draw();
+                 })
+      }
+      setInterval(function(){
+            $("#ichart-render").empty();
+            load_list()
+      },20000)
+
+
+
+      $(document).ready(function(){
+// 　　alert($(window).height()); //浏览器当前窗口可视区域高度
+// 　　alert($(document).height()); //浏览器当前窗口文档的高度
+// 　　alert($(document.body).height());//浏览器当前窗口文档body的高度
+// 　　alert($(document.body).outerHeight(true));//浏览器当前窗口文档body的总高度 包括border padding margin
+　　alert($(window).width()); //浏览器当前窗口可视区域宽度
+　　alert($(document).width());//浏览器当前窗口文档对象宽度
+// 　　alert($(document.body).width());//浏览器当前窗口文档body的宽度
+// 　　alert($(document.body).outerWidth(true));//浏览器当前窗口文档body的总宽度 包括border padding margin
+　　})
+});
+</script>
+</body>
+</html>

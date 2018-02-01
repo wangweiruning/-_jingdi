@@ -1,0 +1,50 @@
+<html>
+      <head>
+      <meta charset="utf-8" />
+      <title>必中PK10计划</title>
+      <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0, user-scalable=no"/>
+      <meta name="apple-mobile-web-app-capable" content="yes" />
+      <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+      <meta name="format-detection" content="telephone=no, email=no" />
+      <meta name="full-screen" content="true" />
+      <meta name="screen-orientation" content="portrait" />
+      <meta name="x5-fullscreen" content="true" />
+      <meta name="360-fullscreen" content="true" />
+      <meta http-equiv="Pragma" content="no-cache" />
+      <meta http-equiv="Cache-Control" content="no-cache,must-revalidate" />
+      <meta http-equiv="Expires" content="0" />
+      <link rel="stylesheet" href="css/hui.css">
+      <link rel="stylesheet" href="css/index.css">
+      </head>
+ <body>
+       <div id="shuju">
+            <h2 id="data_h1"></h2>
+            <div id="alldata">
+            <table id="jutidata" border="0">
+             
+            </table>
+            <div id="data_show" style="text-align: center;"></div>
+            </div>
+       </div>
+      <script src="js/jquery-3.1.1.min.js"></script>
+      <script src="js/clipboard.min.js"></script>
+      <script src="js/hui.js"></script>
+      <script src="js/data.js"></script>
+      <script>
+        (function (doc, win) {
+  var docEl = doc.documentElement,
+    resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+    recalc = function () {
+      var clientWidth = docEl.clientWidth;
+      if (!clientWidth) return;
+      docEl.style.fontSize = 16 * (clientWidth / 320) + 'px';
+    };
+
+  // Abort if browser does not support addEventListener
+  if (!doc.addEventListener) return;
+  win.addEventListener(resizeEvt, recalc, false);
+  doc.addEventListener('DOMContentLoaded', recalc, false);
+})(document, window);
+      </script>
+ </body>
+</html>
