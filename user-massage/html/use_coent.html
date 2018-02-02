@@ -63,6 +63,7 @@ isshows();
               	var result= msg.data;
 				$('#biuuu_city_list').empty();
 				var str="";
+				var today=0, yestday=0,thisWeek=0, thisMonth=0 ,lastMonth=0 ,allCount=0;
                 for(var i=0;i<result.length;i++){
       					var text=i+1;
       					if (text==1) {
@@ -92,8 +93,23 @@ isshows();
 							<td>'+result[i].lastMonth+'</td>\
 							<td>'+result[i].allCount+'</td>\
 							</tr>';
-		                    		
+		                   today+= result[i].today;	
+		                   yestday+=result[i].yestday;
+		                   thisWeek+=result[i].thisWeek;
+		                   thisMonth+=result[i].thisMonth;
+		                   lastMonth+=result[i].lastMonth;
+		                   allCount+=result[i].allCount;
                 }  
+                	str+='<tr>'+  
+							'<td></td>'+
+							'<td>总计人数</td>'+
+							'<td>'+today+'</td>'+
+							'<td>'+yestday+'</td>'+
+							'<td>'+thisWeek+'</td>'+
+							'<td>'+thisMonth+'</td>'+
+							'<td>'+lastMonth+'</td>'+
+							'<td>'+allCount+'</td>'+
+							'</tr>';
                 //追加渲染到页面  
                 $('#biuuu_city_list').html(str)  
  
